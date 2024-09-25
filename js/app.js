@@ -1,7 +1,7 @@
 /*-------------------------------- Constants --------------------------------*/
-const icons = []
+const icons = ["images/jackpot-ghost.png"]
 
-
+console.log(icons)
 
 /*---------------------------- Variables (state) ----------------------------*/
 let reel1 = null
@@ -17,15 +17,19 @@ const messageElement = document.getElementById('message')
 
 /*-------------------------------- Functions --------------------------------*/
 const spinReels = () => {
-    // Function logic here
+  reel1 = getRandomIcon()
+  reel2 = getRandomIcon()
+  reel3 = getRandomIcon()
 }
 
 const getRandomIcon = () => {
-  // Function logic here
+  icons[Math.floor(Math.random() * icons.length)]
 }
 
 const updateReels = () => {
-  // Function logic here
+  reel1eElement.innerHTML = `<img src= "${reel1}" alt="Ghost icon">`
+  reel2eElement.innerHTML = `<img src= "${reel2}" alt="Ghost icon">`
+  reel3eElement.innerHTML = `<img src= "${reel3}" alt="Ghost icon">`
 }
 
 const checkWinner = () => {
