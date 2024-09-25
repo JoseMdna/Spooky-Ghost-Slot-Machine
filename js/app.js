@@ -20,10 +20,11 @@ const spinReels = () => {
   reel1 = getRandomIcon()
   reel2 = getRandomIcon()
   reel3 = getRandomIcon()
+  updateReels()
 }
 
 const getRandomIcon = () => {
-  icons[Math.floor(Math.random() * icons.length)]
+  return icons[Math.floor(Math.random() * icons.length)]
 }
 
 const updateReels = () => {

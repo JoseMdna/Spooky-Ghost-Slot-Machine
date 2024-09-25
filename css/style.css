@@ -32,11 +32,17 @@ button:hover {
     width: 150px;
     height: 150px;
     background-color: black;
-    border: 3px solid #fff;
+    border: 2.5px solid #fff;
     margin: 0 10px;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.reel img {
+    width: 125px;
+    height: 125px;
+   
 }
 
 #instructions {
