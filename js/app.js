@@ -1,7 +1,13 @@
 /*-------------------------------- Constants --------------------------------*/
-const icons = ["images/jackpot-ghost.png"]
+const icons = [
+  "images/jackpot-ghost.png",
+  "images/blue-lightsaber.png",
+  "images/green-lightsaber.png",
+  "images/purple-lightsaber.png",
+  "images/yellow-lightsaber.png",
+  "images/pink-lightsabers.png"
+]
 
-console.log(icons)
 
 /*---------------------------- Variables (state) ----------------------------*/
 let reel1 = null
@@ -21,6 +27,7 @@ const spinReels = () => {
   reel2 = getRandomIcon()
   reel3 = getRandomIcon()
   updateReels()
+  checkWinner()
 }
 
 const getRandomIcon = () => {
@@ -33,15 +40,17 @@ const updateReels = () => {
   reel3eElement.innerHTML = `<img src= "${reel3}" alt="Ghost icon">`
 }
 
-const checkWinner = () => {
-    // Function logic here
+const checkWinner = () => { 
+  if (reel1 === reel2 && reel2 === reel3) {
+    if (reel1 === "images/jackpot-ghost.png") {
+      messageElement.textContent = "JACKPOT!! You win BIG!!!"
+    } else { 
+      messageElement.textContent = 'You win'
     }
-
-const checkForJackpot = () => {
-    // Function logic here
+  } else {  
+    messageElement.textContent = 'You lost, try again!!!'  
+  } 
 }
-
-
 
 /*----------------------------- Event Listeners -----------------------------*/
 spinButton.addEventListener('click', spinReels)
