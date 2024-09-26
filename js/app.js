@@ -1,12 +1,14 @@
 /*-------------------------------- Constants --------------------------------*/
 const icons = [
-  "images/jackpot-ghost.png",
   "images/blue-lightsaber.png",
-  "images/green-lightsaber.png",
   "images/purple-lightsaber.png",
+  "images/green-lightsaber.png",
   "images/yellow-lightsaber.png",
-  "images/pink-lightsabers.png"
+  "images/pink-lightsabers.png",
+  "images/jackpot-ghost.png"
 ]
+
+const multiplier = [1.35, 1.60, 2, 3, 5, 10]
 
 
 /*---------------------------- Variables (state) ----------------------------*/
@@ -14,12 +16,15 @@ let reel1 = null
 let reel2 = null
 let reel3 = null
 
+let userProgress = null
+
 /*------------------------ Cached Element References ------------------------*/
 const spinButton = document.getElementById('spin-button')
 const reel1eElement = document.getElementById('reel1')
 const reel2eElement = document.getElementById('reel2')  
 const reel3eElement = document.getElementById('reel3')
 const messageElement = document.getElementById('message')
+const playerGreetingElement = document.getElementById('player-greeting')
 
 /*-------------------------------- Functions --------------------------------*/
 const spinReels = () => {
@@ -40,13 +45,17 @@ const updateReels = () => {
   reel3eElement.innerHTML = `<img src= "${reel3}" alt="Ghost icon">`
 }
 
-const checkWinner = () => { 
+const checkForWinner = () => { 
   if (reel1 === reel2 && reel2 === reel3) {
+    const winIndex = icons.indexOf(reel1)
+    const winMultiplier = multiplier[winIndex]
     if (reel1 === "images/jackpot-ghost.png") {
-      messageElement.textContent = "JACKPOT!! You win BIG!!!"
+      messageElement.textContent = "JACKPOT!! YOU WIN BIG!!!"
     } else { 
       messageElement.textContent = 'You win'
     }
+    userProgress += winMultiplier
+    playerGreetingElement.textContent = `You won: ${userProgress.toFixed(2)}`
   } else {  
     messageElement.textContent = 'You lost, try again!!!'  
   } 
