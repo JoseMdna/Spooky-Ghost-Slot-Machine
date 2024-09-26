@@ -32,9 +32,13 @@ const restartButtonElement = document.getElementById("restart-button")
 
 /*-------------------------------- Functions --------------------------------*/
 
+const updateBalance = () => {
+  balanceElement.textContent = balace.toFixed(2)
+}
+
 const restartGame = () => {
   balace = 100
-  // updateBalance()
+  updateBalance()
   gameOverMessageElement.textContent = ""
   spinButton.style.display = "block"
   document.getElementById("slot-machine").style.display = "flex"
@@ -51,7 +55,7 @@ const spinReels = () => {
     betErrorElement.style.display = "none"
   }
   balace -= betAmount
-  // updateBalance()
+  updateBalance()
   reel1 = getRandomIcon()
   reel2 = getRandomIcon()
   reel3 = getRandomIcon()
@@ -85,8 +89,9 @@ const checkForWinner = (betAmount) => {
     } else { 
       messageElement.textContent = 'You win'
     }
+
     balace += winAmount
-    // updateBalance()
+    updateBalance()
   } else {  
     messageElement.textContent = 'You lost, try again!!!'  
   }
@@ -96,3 +101,5 @@ const checkForWinner = (betAmount) => {
 /*----------------------------- Event Listeners -----------------------------*/
 spinButton.addEventListener('click', spinReels)
 restartButtonElement.addEventListener('click', restartGame)
+
+updateBalance()
