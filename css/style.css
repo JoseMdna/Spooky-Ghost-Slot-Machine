@@ -10,16 +10,9 @@ body {
 
 button {
     padding: 10px 20px;
-    background-color: #0066cc;
-    color: white;
-    border: none;
+    font-size: 16px;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 19.2px;
-}
-
-button:hover {
-    background-color: #005bb5;
 }
 
 #slot-machine {
@@ -66,28 +59,27 @@ button:hover {
     margin-top: 5px;
 }
 
-#spin-button, #restart-button {
-    margin: 0 auto;
-    display: block;
-    text-align: center;
+#spin-button {
+    background-color: blue;
+    color: white;
 }
 
-#bet-controls {
-    margin-top: 10px;
+.bet-controls {
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 20px;
+    margin-top: 20px;
 }
 
-#bet-controls button {
-    padding: 10px 20px;
-    background-color: #00cc66;
+#min-bet-button, #max-bet-button {
+    background-color: green;
     color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
 }
 
-#bet-controls button:hover {
-    background-color: #00994d;
+#min-bet-button:hover, #max-bet-button:hover {
+    background-color: darkgreen;
+}
+
+#spin-button:hover {
+    background-color: darkblue;
 }

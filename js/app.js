@@ -29,6 +29,9 @@ const betInputElement = document.getElementById("bet-amount")
 const betErrorElement = document.getElementById("bet-error")
 const gameOverMessageElement = document.getElementById("game-over-message")
 const restartButtonElement = document.getElementById("restart-button")
+const maxBetButtonElement = document.getElementById("max-bet-button")
+const minBetButtonElement = document.getElementById("min-bet-button")
+
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -37,12 +40,19 @@ const updateBalance = () => {
 }
 
 const restartGame = () => {
-  balace = 100
-  updateBalance()
   gameOverMessageElement.style.display = "none"
   spinButton.style.display = "block"
   spinButton.style.margin = "0 auto"
+  minBetButtonElement.style.display = "block"
+  maxBetButtonElement.style.display = "block"
+  restartButtonElement.style.display = "none"
+  balace = 100
+  betInputElement.value = "1"
+  messageElement.textContent = "Game restarted! place your bet"
+  updateBalance()
   document.getElementById("slot-machine").style.display = "flex"
+  document.querySelector(".bet-contols").style.display = "flex"
+  document.querySelector(".bet-contols").style.justifyContent = "center"
   messageElement.textContent = ""
   betErrorElement.style.display = "none"
 }
@@ -102,8 +112,14 @@ const checkForWinner = (betAmount) => {
 }
 
 
-/*----------------------------- Event Listeners -----------------------------*/
-spinButton.addEventListener('click', spinReels)
-restartButtonElement.addEventListener('click', restartGame)
 
-updateBalance()
+/*----------------------------- Event Listeners -----------------------------*/
+spinButton.addEventListener('click', spinReels)   
+restartButtonElement.addEventListener('click', restartGame)
+minBetButtonElement.addEventListener('click', () => {
+  betInputElement.value = "0.01"
+})
+maxBetButtonElement.addEventListener('click', () => {
+  betInputElement.value = balace.toFixed(2)
+}) 
+
