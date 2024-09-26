@@ -56,6 +56,7 @@ button:hover {
     margin-top: 20px;
     font-size: 24px;
     font-weight: bold;
+    padding: 10px;
 }
 
 #bet-error {
@@ -63,4 +64,30 @@ button:hover {
     font-size: 14px;
     display: none;
     margin-top: 5px;
+}
+
+#spin-button, #restart-button {
+    margin: 0 auto;
+    display: block;
+    text-align: center;
+}
+
+#bet-controls {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+#bet-controls button {
+    padding: 10px 20px;
+    background-color: #00cc66;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#bet-controls button:hover {
+    background-color: #00994d;
 }

@@ -39,8 +39,9 @@ const updateBalance = () => {
 const restartGame = () => {
   balace = 100
   updateBalance()
-  gameOverMessageElement.textContent = ""
+  gameOverMessageElement.style.display = "none"
   spinButton.style.display = "block"
+  spinButton.style.margin = "0 auto"
   document.getElementById("slot-machine").style.display = "flex"
   messageElement.textContent = ""
   betErrorElement.style.display = "none"
@@ -85,15 +86,18 @@ const checkForWinner = (betAmount) => {
     const winAmount = betAmount * winMultiplier
     
     if (reel1 === "images/jackpot-ghost.png") {
-      messageElement.textContent = "JACKPOT!! YOU WIN BIG!!!"
+      messageElement.textContent = `JACKPOT!! You won $${winAmount.toFixed(2)}`
+      messageElement.style.color = "#ffcc00"
     } else { 
-      messageElement.textContent = 'You win'
+      messageElement.textContent = `You won $${winAmount.toFixed(2)}!`
+      messageElement.style.color = "#00ff00"
     }
 
     balace += winAmount
     updateBalance()
   } else {  
-    messageElement.textContent = 'You lost, try again!!!'  
+    messageElement.textContent = "You lost, try again!"  
+    messageElement.style.color = "#ffffff"
   }
 }
 
