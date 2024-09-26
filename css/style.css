@@ -57,3 +57,10 @@ button:hover {
     font-size: 24px;
     font-weight: bold;
 }
+
+#bet-error {
+    color: red;
+    font-size: 14px;
+    display: none;
+    margin-top: 5px;
+}

@@ -16,23 +16,52 @@ let reel1 = null
 let reel2 = null
 let reel3 = null
 
-let userProgress = null
+let balace = 100
 
 /*------------------------ Cached Element References ------------------------*/
-const spinButton = document.getElementById('spin-button')
-const reel1eElement = document.getElementById('reel1')
-const reel2eElement = document.getElementById('reel2')  
-const reel3eElement = document.getElementById('reel3')
-const messageElement = document.getElementById('message')
-const playerGreetingElement = document.getElementById('player-greeting')
+const spinButton = document.getElementById("spin-button")
+const reel1eElement = document.getElementById("reel1")
+const reel2eElement = document.getElementById("reel2")  
+const reel3eElement = document.getElementById("reel3")
+const messageElement = document.getElementById("message")
+const balanceElement = document.getElementById("balance")
+const betInputElement = document.getElementById("bet-amount")  
+const betErrorElement = document.getElementById("bet-error")
+const gameOverMessageElement = document.getElementById("game-over-message")
+const restartButtonElement = document.getElementById("restart-button")
 
 /*-------------------------------- Functions --------------------------------*/
+
+const restartGame = () => {
+  balace = 100
+  // updateBalance()
+  gameOverMessageElement.textContent = ""
+  spinButton.style.display = "block"
+  document.getElementById("slot-machine").style.display = "flex"
+  messageElement.textContent = ""
+  betErrorElement.style.display = "none"
+}
+
 const spinReels = () => {
+  let betAmount = parseFloat(betInputElement.value)
+  if (betAmount > balace) {
+    betErrorElement.style.display = "block"
+    return
+  } else {
+    betErrorElement.style.display = "none"
+  }
+  balace -= betAmount
+  // updateBalance()
   reel1 = getRandomIcon()
   reel2 = getRandomIcon()
   reel3 = getRandomIcon()
   updateReels()
-  checkWinner()
+  checkForWinner(betAmount)
+  if (balace <= 0) {
+    gameOverMessageElement.style.display = "block"
+    spinButton.style.display = "none"
+    document.getElementById("slot-machine").style.display = "none"
+  }
 }
 
 const getRandomIcon = () => {
@@ -45,21 +74,25 @@ const updateReels = () => {
   reel3eElement.innerHTML = `<img src= "${reel3}" alt="Ghost icon">`
 }
 
-const checkForWinner = () => { 
+const checkForWinner = (betAmount) => { 
   if (reel1 === reel2 && reel2 === reel3) {
     const winIndex = icons.indexOf(reel1)
     const winMultiplier = multiplier[winIndex]
+    const winAmount = betAmount * winMultiplier
+    
     if (reel1 === "images/jackpot-ghost.png") {
       messageElement.textContent = "JACKPOT!! YOU WIN BIG!!!"
     } else { 
       messageElement.textContent = 'You win'
     }
-    userProgress += winMultiplier
-    playerGreetingElement.textContent = `You won: ${userProgress.toFixed(2)}`
+    balace += winAmount
+    // updateBalance()
   } else {  
     messageElement.textContent = 'You lost, try again!!!'  
-  } 
+  }
 }
+
 
 /*----------------------------- Event Listeners -----------------------------*/
 spinButton.addEventListener('click', spinReels)
+restartButtonElement.addEventListener('click', restartGame)
