@@ -43,8 +43,16 @@ const reloadBalanceButtonElement = document.getElementById("reload-balance-butto
 
 /*-------------------------------- Functions --------------------------------*/
 
-const showLoginFeedback = (message) => {
+const showLoginFeedback = (message, isSuccess = false) => {
   loginFeedbackElement.textContent = message
+  if (isSuccess) {
+    loginFeedbackElement.classList.add("success-feedback")
+    loginFeedbackElement.classList.remove("error-feedback")
+} else {
+    loginFeedbackElement.classList.add("error-feedback")
+    loginFeedbackElement.classList.remove("success-feedback")
+  }
+  loginFeedbackElement.style.display = "block" 
 }
 
 const startGame = () => {
@@ -59,17 +67,21 @@ const handleLogin = () => {
     balance = users[enteredUsername].balance
     localStorage.setItem("currentUser", enteredUsername)
     updateBalance()
-    showLoginFeedback(`Welcome back, ${enteredUsername}!`)
+    showLoginFeedback(`Welcome back, ${enteredUsername}!` ,true)
+    setTimeout(() => {
     startGame()
+  }, 1500) 
   } else {
-    showLoginFeedback("No saved account was found.")
+    showLoginFeedback("No saved account was found!", false)
   }
 }
 
 const handleGuest = () => {
-  showLoginFeedback("Playing as Guest!")
+  showLoginFeedback("Playing as Guest!", true)
   localStorage.removeItem("currentUser")
+  setTimeout(() => {
   startGame()
+}, 1500)
   logoutButtonElement.style.display = "block"
   logoutButtonElement.style.margin = "16px auto"
 }
@@ -79,15 +91,17 @@ const handleCreateAccount = () => {
   const users = JSON.parse(localStorage.getItem("users")) || {}
   if (newUsername) {
     if (users[newUsername]) {
-      showLoginFeedback("This username already exists. Please log in.")
+      showLoginFeedback("This username already exists. Please log in.", false)
     } else {
       users[newUsername] = { balance: 100}
       localStorage.setItem("users", JSON.stringify(users))
-      showLoginFeedback(`Account created successfully. Welcome, ${newUsername}!`)
+      showLoginFeedback(`Account created successfully. Welcome, ${newUsername}!`, true)
+      setTimeout(() => {
       startGame()
-    }
-  } else {
-    showLoginFeedback("Please enter a valid username.")
+    }, 1800)
+  }
+} else {
+  showLoginFeedback("Please enter a valid username.", false)
   }
 }
 
@@ -171,20 +185,20 @@ const checkForWinner = (betAmount) => {
       messageElement.style.color = "#ffcc00"
     } else { 
       messageElement.textContent = `You won $${winAmount.toFixed(2)}!`
-      messageElement.style.color = "#00ff00"
+      messageElement.style.color = "#00a67e"
     }
     balance += winAmount
     updateBalance()
   } else {  
     messageElement.textContent = "You lost, try again!"  
-    messageElement.style.color = "#ffffff"
+    messageElement.style.color = "red"
   }
 
   if (balance <= 0) {
     balance = 0
     updateBalance()
     const currentUser = localStorage.getItem("currentUser")
-    if (currentUser) {
+    if (currentUser && currentUser !== "null" && currentUser !== "undefined") {
       document.getElementById("reload-balance-button").style.display = "block"
   } else { 
     return
@@ -203,8 +217,15 @@ maxBetButtonElement.addEventListener('click', () => {
   betInputElement.value = balance.toFixed(2)
 }) 
 nextButtonElement.addEventListener('click', () => {
+  instructionsPageElement.classList.add("hidden")
+  setTimeout(() => { 
   instructionsPageElement.style.display = "none"
   loginPageElement.style.display = "block"
+  setTimeout(() => {
+   loginPageElement.classList.add("visible")
+    loginPageElement.classList.remove("hidden")
+  }, 50)
+  }, 500)
 })
 loginButtonElement.addEventListener('click', handleLogin)
 guestButtonElement.addEventListener('click', handleGuest) 
