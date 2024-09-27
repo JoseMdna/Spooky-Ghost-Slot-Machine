@@ -31,30 +31,31 @@ const gameOverMessageElement = document.getElementById("game-over-message")
 const restartButtonElement = document.getElementById("restart-button")
 const maxBetButtonElement = document.getElementById("max-bet-button")
 const minBetButtonElement = document.getElementById("min-bet-button")
-const instructionsPage = document.getElementById("instructions")
-const gameSection = document.getElementById("game-section")
-const nextButton = document.getElementById("next-button")
-const loginPage = document.getElementById("login-page")
-const loginButton = document.getElementById("login-button")
-const guestButton = document.getElementById("guest-button")
-const createAccountButton = document.getElementById("create-account-button")
-const loginFeedback = document.getElementById("login-feedback")
-
+const instructionsPageElement = document.getElementById("instructions")
+const gameSectionElement = document.getElementById("game-section")
+const nextButtonElement = document.getElementById("next-button")
+const loginPageElement = document.getElementById("login-page")
+const loginButtonElement = document.getElementById("login-button")
+const guestButtonElement = document.getElementById("guest-button")
+const createAccountButtonElement = document.getElementById("create-account-button")
+const loginFeedbackElement = document.getElementById("login-feedback")
+const usernameInputElement = document.getElementById("username-input")
 
 /*-------------------------------- Functions --------------------------------*/
 
 const showLoginFeedback = (message) => {
-  loginFeedback.textContent = message
+  loginFeedbackElement.textContent = message
 }
 
 const startGame = () => {
-  loginPage.style.display = "none"
-  gameSection.style.display = "block"
+  loginPageElement.style.display = "none"
+  gameSectionElement.style.display = "block"
 }
 
 const handleLogin = () => {
+  const enteredUsername = usernameInputElement.value.trim()
   const savedUsername = localStorage.getItem("username")
-  if (savedUsername) {
+  if (enteredUsername === savedUsername) {
     showLoginFeedback(`Welcome back, ${savedUsername}!`)
     startGame()
   } else {
@@ -68,7 +69,7 @@ const handleGuest = () => {
 }
 
 const handleCreateAccount = () => {
-  const newUsername = prompt("Enter a username:")
+  const newUsername = usernameInputElement.value.trim()
   if (newUsername) {
     localStorage.setItem("username", newUsername)
     showLoginFeedback(`Account created successfully. Welcome, ${newUsername}!`)
@@ -155,7 +156,6 @@ const checkForWinner = (betAmount) => {
       messageElement.textContent = `You won $${winAmount.toFixed(2)}!`
       messageElement.style.color = "#00ff00"
     }
-
     balance += winAmount
     updateBalance()
   } else {  
@@ -167,7 +167,39 @@ const checkForWinner = (betAmount) => {
 
 
 /*----------------------------- Event Listeners -----------------------------*/
-spinButton.addEventListener('click', spinReels)   
+spinButton.addEventListener('click', () => {
+  let betAmount = parseFloat(betInputElement.value)
+  if (betAmount <= 0) {
+    betErrorElement.textContent = "Bet amount must be greater than $0.00!"
+    betErrorElement.style.display = "block"
+    return
+  } else {
+    betErrorElement.style.display = "none"
+  }
+  if (betAmount > balance + 0.01) {
+    betErrorElement.textContent = "This bet exceeds your current balance!"
+    betErrorElement.style.display = "block"
+    return
+  } else {
+    betErrorElement.style.display = "none"
+  }
+  balance -= betAmount
+  updateBalance()
+  reel1 = getRandomIcon()
+  reel2 = getRandomIcon()
+  reel3 = getRandomIcon()
+  updateReels()
+  checkForWinner(betAmount)
+  if (balance <= 0) {
+    balance = 0
+    updateBalance()
+    gameOverMessageElement.style.display = "block"
+    spinButton.style.display = "none"
+    restartButtonElement.style.display = "block"
+    restartButtonElement.style.margin = "0 auto"
+    document.getElementById("slot-machine").style.display = "none"
+  }
+})
 restartButtonElement.addEventListener('click', restartGame)
 minBetButtonElement.addEventListener('click', () => {
   betInputElement.value = "0.01"
@@ -175,11 +207,12 @@ minBetButtonElement.addEventListener('click', () => {
 maxBetButtonElement.addEventListener('click', () => {
   betInputElement.value = balance.toFixed(2)
 }) 
-nextButton.addEventListener('click', () => {
-  instructionsPage.style.display = "none"
-  loginPage.style.display = "block"
+nextButtonElement.addEventListener('click', () => {
+  instructionsPageElement.style.display = "none"
+  loginPageElement.style.display = "block"
 })
-loginButton.addEventListener('click', handleLogin)
-guestButton.addEventListener('click', handleGuest)
-createAccountButton.addEventListener('click', handleCreateAccount)
+loginButtonElement.addEventListener('click', handleLogin)
+guestButtonElement.addEventListener('click', handleGuest) 
+createAccountButtonElement.addEventListener('click', handleCreateAccount)
+
 
