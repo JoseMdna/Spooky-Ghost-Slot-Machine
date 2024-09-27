@@ -88,3 +88,9 @@ button {
 #spin-button:hover {
     background-color: darkblue;
 }
+
+#logout-button {
+    margin: 16px;
+    color: white;
+    background-color: red;
+}

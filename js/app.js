@@ -40,6 +40,7 @@ const guestButtonElement = document.getElementById("guest-button")
 const createAccountButtonElement = document.getElementById("create-account-button")
 const loginFeedbackElement = document.getElementById("login-feedback")
 const usernameInputElement = document.getElementById("username-input")
+const logoutButtonElement = document.getElementById("logout-button")
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -54,9 +55,13 @@ const startGame = () => {
 
 const handleLogin = () => {
   const enteredUsername = usernameInputElement.value.trim()
-  const savedUsername = localStorage.getItem("username")
-  if (enteredUsername === savedUsername) {
-    showLoginFeedback(`Welcome back, ${savedUsername}!`)
+  const users = JSON.parse(localStorage.getItem("users")) || {}
+  if (users[enteredUsername]) {
+    balance = users[enteredUsername].balance
+    console.log(`Restored balance for ${enteredUsername}: $${balance}`)
+    localStorage.setItem("currentUser", enteredUsername)
+    updateBalance()
+    showLoginFeedback(`Welcome back, ${enteredUsername}!`)
     startGame()
   } else {
     showLoginFeedback("No saved account was found.")
@@ -70,10 +75,16 @@ const handleGuest = () => {
 
 const handleCreateAccount = () => {
   const newUsername = usernameInputElement.value.trim()
+  const users = JSON.parse(localStorage.getItem("users")) || {}
   if (newUsername) {
-    localStorage.setItem("username", newUsername)
-    showLoginFeedback(`Account created successfully. Welcome, ${newUsername}!`)
-    startGame()
+    if (users[newUsername]) {
+      showLoginFeedback("This username already exists. Please log in.")
+    } else {
+      users[newUsername] = { balance: 100}
+      localStorage.setItem("users", JSON.stringify(users))
+      showLoginFeedback(`Account created successfully. Welcome, ${newUsername}!`)
+      startGame()
+    }
   } else {
     showLoginFeedback("Please enter a valid username.")
   }
@@ -89,7 +100,11 @@ const restartGame = () => {
   minBetButtonElement.style.display = "block"
   maxBetButtonElement.style.display = "block"
   restartButtonElement.style.display = "none"
-  balance = 100
+  const currentUser = localStorage.getItem("currentUser")
+  const users = JSON.parse(localStorage.getItem("users")) || {}
+  if (currentUser && users[currentUser]) {
+    balance = users[currentUser].balance
+  }
   betInputElement.value = "1"
   messageElement.textContent = "Game restarted! place your bet"
   updateBalance()
@@ -97,6 +112,16 @@ const restartGame = () => {
   document.querySelector(".bet-controls").style.margin = "0 auto" 
   messageElement.textContent = ""
   betErrorElement.style.display = "none"
+}
+
+const handleLogout = () => {
+  const currentUser = localStorage.getItem("currentUser")
+  const users = JSON.parse(localStorage.getItem("users")) || {}
+  if (currentUser && users[currentUser]) {
+    users[currentUser].balance = balance
+    localStorage.setItem("users", JSON.stringify(users))
+  }
+  window.location.href = "thankyou.html"
 }
 
 const spinReels = () => {
@@ -117,6 +142,12 @@ const spinReels = () => {
   }
   balance -= betAmount
   updateBalance()
+ const currentUser = localStorage.getItem("currentUser")
+ const users = JSON.parse(localStorage.getItem("users")) || {}
+ if (currentUser && users[currentUser]) {
+   users[currentUser].balance = balance
+   localStorage.setItem("users", JSON.stringify(users))
+  }
   reel1 = getRandomIcon()
   reel2 = getRandomIcon()
   reel3 = getRandomIcon()
@@ -214,5 +245,6 @@ nextButtonElement.addEventListener('click', () => {
 loginButtonElement.addEventListener('click', handleLogin)
 guestButtonElement.addEventListener('click', handleGuest) 
 createAccountButtonElement.addEventListener('click', handleCreateAccount)
+logoutButtonElement.addEventListener('click', handleLogout)
 
 
