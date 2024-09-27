@@ -27,8 +27,6 @@ const messageElement = document.getElementById("message")
 const balanceElement = document.getElementById("balance")
 const betInputElement = document.getElementById("bet-amount")  
 const betErrorElement = document.getElementById("bet-error")
-const gameOverMessageElement = document.getElementById("game-over-message")
-const restartButtonElement = document.getElementById("restart-button")
 const maxBetButtonElement = document.getElementById("max-bet-button")
 const minBetButtonElement = document.getElementById("min-bet-button")
 const instructionsPageElement = document.getElementById("instructions")
@@ -41,6 +39,7 @@ const createAccountButtonElement = document.getElementById("create-account-butto
 const loginFeedbackElement = document.getElementById("login-feedback")
 const usernameInputElement = document.getElementById("username-input")
 const logoutButtonElement = document.getElementById("logout-button")
+const reloadBalanceButtonElement = document.getElementById("reload-balance-button")
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -58,7 +57,6 @@ const handleLogin = () => {
   const users = JSON.parse(localStorage.getItem("users")) || {}
   if (users[enteredUsername]) {
     balance = users[enteredUsername].balance
-    console.log(`Restored balance for ${enteredUsername}: $${balance}`)
     localStorage.setItem("currentUser", enteredUsername)
     updateBalance()
     showLoginFeedback(`Welcome back, ${enteredUsername}!`)
@@ -70,7 +68,10 @@ const handleLogin = () => {
 
 const handleGuest = () => {
   showLoginFeedback("Playing as Guest!")
+  localStorage.removeItem("currentUser")
   startGame()
+  logoutButtonElement.style.display = "block"
+  logoutButtonElement.style.margin = "16px auto"
 }
 
 const handleCreateAccount = () => {
@@ -133,7 +134,7 @@ const spinReels = () => {
   } else {
     betErrorElement.style.display = "none"
   }
-  if (betAmount > balance + 0.01) {
+  if (betAmount > balance + 0.001) {
     betErrorElement.textContent = "This bet exceeds your current balance!"
     betErrorElement.style.display = "block"
     return
@@ -142,26 +143,11 @@ const spinReels = () => {
   }
   balance -= betAmount
   updateBalance()
- const currentUser = localStorage.getItem("currentUser")
- const users = JSON.parse(localStorage.getItem("users")) || {}
- if (currentUser && users[currentUser]) {
-   users[currentUser].balance = balance
-   localStorage.setItem("users", JSON.stringify(users))
-  }
   reel1 = getRandomIcon()
   reel2 = getRandomIcon()
   reel3 = getRandomIcon()
   updateReels()
-  checkForWinner(betAmount)
-  if (balance <= 0) {
-    balance = 0
-    updateBalance()
-    gameOverMessageElement.style.display = "block"
-    spinButton.style.display = "none"
-    restartButtonElement.style.display = "block"
-    restartButtonElement.style.margin = "0 auto"
-    document.getElementById("slot-machine").style.display = "none"
-  }
+  checkForWinner(betAmount) 
 }
 
 const getRandomIcon = () => {
@@ -193,45 +179,23 @@ const checkForWinner = (betAmount) => {
     messageElement.textContent = "You lost, try again!"  
     messageElement.style.color = "#ffffff"
   }
+
+  if (balance <= 0) {
+    balance = 0
+    updateBalance()
+    const currentUser = localStorage.getItem("currentUser")
+    if (currentUser) {
+      document.getElementById("reload-balance-button").style.display = "block"
+  } else { 
+    return
+  }
+ }
 }
 
 
 
 /*----------------------------- Event Listeners -----------------------------*/
-spinButton.addEventListener('click', () => {
-  let betAmount = parseFloat(betInputElement.value)
-  if (betAmount <= 0) {
-    betErrorElement.textContent = "Bet amount must be greater than $0.00!"
-    betErrorElement.style.display = "block"
-    return
-  } else {
-    betErrorElement.style.display = "none"
-  }
-  if (betAmount > balance + 0.01) {
-    betErrorElement.textContent = "This bet exceeds your current balance!"
-    betErrorElement.style.display = "block"
-    return
-  } else {
-    betErrorElement.style.display = "none"
-  }
-  balance -= betAmount
-  updateBalance()
-  reel1 = getRandomIcon()
-  reel2 = getRandomIcon()
-  reel3 = getRandomIcon()
-  updateReels()
-  checkForWinner(betAmount)
-  if (balance <= 0) {
-    balance = 0
-    updateBalance()
-    gameOverMessageElement.style.display = "block"
-    spinButton.style.display = "none"
-    restartButtonElement.style.display = "block"
-    restartButtonElement.style.margin = "0 auto"
-    document.getElementById("slot-machine").style.display = "none"
-  }
-})
-restartButtonElement.addEventListener('click', restartGame)
+spinButton.addEventListener('click', spinReels)
 minBetButtonElement.addEventListener('click', () => {
   betInputElement.value = "0.01"
 })
@@ -246,5 +210,14 @@ loginButtonElement.addEventListener('click', handleLogin)
 guestButtonElement.addEventListener('click', handleGuest) 
 createAccountButtonElement.addEventListener('click', handleCreateAccount)
 logoutButtonElement.addEventListener('click', handleLogout)
-
-
+reloadBalanceButtonElement.addEventListener('click', () => {
+  balance = 100
+  updateBalance()
+  reloadBalanceButtonElement.style.display = "none"
+  const currentUser = localStorage.getItem("currentUser")
+  const users = JSON.parse(localStorage.getItem("users")) || {} 
+  if (currentUser && users[currentUser]) {
+    users[currentUser].balance = balance
+    localStorage.setItem("users", JSON.stringify(users))
+  }
+})

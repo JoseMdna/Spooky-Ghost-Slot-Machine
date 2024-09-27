@@ -21,18 +21,30 @@
             font-size: 16px;
             border-radius: 5px; 
             cursor: pointer;
-            background-color:darkblue;
+            background-color:blue;
             color: white;
             margin-top: 20px;
         }
+        button:hover {
+            background-color: darkblue;
+        }   
     </style>
 </head>
 <body>
-    <h1>Thank you for playing!</h1>
+    <h1>Thank You For Playing My Spooky Ghost Slot Machine!</h1>
     <div class="message">
-        <p>Your progress has been saved. We hope to see you again soon!</p>
+        <p>Your progress has been saved if you made an account! <br>Be sure to come back again real soon!</p>
         <p>Also don’t forget to share this game with your friends!</p>
     </div>
-    <button onclick="window.location.href = 'index.html';">Back to the instructions</button>
+
+    <button id="reset-button" type="button">Play Again</button>
+
+    <script>
+        document.getElementById("reset-button").addEventListener('click', () => {
+            localStorage.setItem("balance", 100);
+            window.location.href = 'index.html';
+        });
+    </script>
+
 </body>
 </html>
