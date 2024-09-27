@@ -37,7 +37,7 @@ button {
     height: 130px;
 }
 
-#instructions {
+#instructions, #game-section {
     margin-top: 20px;
     padding: 20px;
     background-color: #333;

@@ -8,15 +8,29 @@
 </head>
 <body>
 
+<!---- instructions Section -->
     <div id="instructions">
         <h1>How to Play</h1>
         <p>Click the <B>spin</b> button to spin the slot machine. If all three ghost icons match, you win a multiplier bonus!</p>
+        <button id="next-button">Next</button>
     </div>
 
+    <!---- login section -->
+    <div id="login-page" style="display: none;">
+        <h2>Login, create an account , or continue as a guest</h2>
+        <button id="login-button">Login to Saved Account</button>
+        <button id="guest-button">Play as a Guest</button>
+        <button id="create-account-button">Create a New Account</button>
+        <div id="login-feedback" style="color: red;"
+    </div>
+
+
+    <!---- Game Section -->
+    <div id="game-section" style="display: none;"> 
     <div id="balance-section">
         <h2>Current Balance: $<span id="balance">100</span></h2>
         <label for="bet-amount">Bet Amount: </label>
-        <input type="number" id="bet-amount" min="1" value="1" step="1">
+        <input type="number" id="bet-amount" min="0.01" value="1" step="0.01">
         <p id="bet-error" style="color: red; display: none;">Bet exceeds your current balance!</p>
     </div>
 

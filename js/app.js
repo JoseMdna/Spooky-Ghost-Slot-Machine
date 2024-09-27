@@ -31,9 +31,20 @@ const gameOverMessageElement = document.getElementById("game-over-message")
 const restartButtonElement = document.getElementById("restart-button")
 const maxBetButtonElement = document.getElementById("max-bet-button")
 const minBetButtonElement = document.getElementById("min-bet-button")
+const instructionsPage = document.getElementById("instructions-page")
+const gameSection = document.getElementById("game-section")
+const nextButton = document.getElementById("next-button")
+const loginPage = document.getElementById("login-page")
+const loginButton = document.getElementById("login-button")
+const guestButton = document.getElementById("guest-button")
+const createAccountButton = document.getElementById("create-account-button")
+const loginFeedback = document.getElementById("login-feedback")
 
 
 /*-------------------------------- Functions --------------------------------*/
+const startGame = () => {
+  gameSection.style.display = "block"
+}
 
 const updateBalance = () => {
   balanceElement.textContent = balance.toFixed(2)
@@ -132,4 +143,6 @@ minBetButtonElement.addEventListener('click', () => {
 maxBetButtonElement.addEventListener('click', () => {
   betInputElement.value = balance.toFixed(2)
 }) 
-
+nextButton.addEventListener('click', () => {
+  instructionsPage.style.display = "none"
+})
