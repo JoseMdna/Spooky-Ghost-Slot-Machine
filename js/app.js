@@ -16,7 +16,7 @@ let reel1 = null
 let reel2 = null
 let reel3 = null
 
-let balace = 100
+let balance = 100
 
 /*------------------------ Cached Element References ------------------------*/
 const spinButton = document.getElementById("spin-button")
@@ -36,45 +36,55 @@ const minBetButtonElement = document.getElementById("min-bet-button")
 /*-------------------------------- Functions --------------------------------*/
 
 const updateBalance = () => {
-  balanceElement.textContent = balace.toFixed(2)
+  balanceElement.textContent = balance.toFixed(2)
 }
 
 const restartGame = () => {
   gameOverMessageElement.style.display = "none"
   spinButton.style.display = "block"
-  spinButton.style.margin = "0 auto"
   minBetButtonElement.style.display = "block"
   maxBetButtonElement.style.display = "block"
   restartButtonElement.style.display = "none"
-  balace = 100
+  balance = 100
   betInputElement.value = "1"
   messageElement.textContent = "Game restarted! place your bet"
   updateBalance()
   document.getElementById("slot-machine").style.display = "flex"
-  document.querySelector(".bet-contols").style.display = "flex"
-  document.querySelector(".bet-contols").style.justifyContent = "center"
+  document.querySelector(".bet-controls").style.margin = "0 auto" 
   messageElement.textContent = ""
   betErrorElement.style.display = "none"
 }
 
 const spinReels = () => {
   let betAmount = parseFloat(betInputElement.value)
-  if (betAmount > balace) {
+  if (betAmount <= 0) {
+    betErrorElement.textContent = "Bet amount must be greater than $0.00!"
     betErrorElement.style.display = "block"
     return
   } else {
     betErrorElement.style.display = "none"
   }
-  balace -= betAmount
+  if (betAmount > balance + 0.01) {
+    betErrorElement.textContent = "This bet exceeds your current balance!"
+    betErrorElement.style.display = "block"
+    return
+  } else {
+    betErrorElement.style.display = "none"
+  }
+  balance -= betAmount
   updateBalance()
   reel1 = getRandomIcon()
   reel2 = getRandomIcon()
   reel3 = getRandomIcon()
   updateReels()
   checkForWinner(betAmount)
-  if (balace <= 0) {
+  if (balance <= 0) {
+    balance = 0
+    updateBalance()
     gameOverMessageElement.style.display = "block"
     spinButton.style.display = "none"
+    restartButtonElement.style.display = "block"
+    restartButtonElement.style.margin = "0 auto"
     document.getElementById("slot-machine").style.display = "none"
   }
 }
@@ -103,7 +113,7 @@ const checkForWinner = (betAmount) => {
       messageElement.style.color = "#00ff00"
     }
 
-    balace += winAmount
+    balance += winAmount
     updateBalance()
   } else {  
     messageElement.textContent = "You lost, try again!"  
@@ -120,6 +130,6 @@ minBetButtonElement.addEventListener('click', () => {
   betInputElement.value = "0.01"
 })
 maxBetButtonElement.addEventListener('click', () => {
-  betInputElement.value = balace.toFixed(2)
+  betInputElement.value = balance.toFixed(2)
 }) 
 
