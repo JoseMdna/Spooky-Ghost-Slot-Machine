@@ -37,12 +37,17 @@ button {
     height: 130px;
 }
 
-#instructions, #game-section {
+#login-page, #instructions, #game-section {
     margin-top: 20px;
     padding: 20px;
     background-color: #333;
     color: #f1f1f1;
     border-radius: 10px;
+}
+
+#login-feedback {
+  margin-top: 10px;
+  color: #ff0000;
 }
 
 #message {

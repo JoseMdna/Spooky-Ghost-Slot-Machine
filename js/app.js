@@ -31,7 +31,7 @@ const gameOverMessageElement = document.getElementById("game-over-message")
 const restartButtonElement = document.getElementById("restart-button")
 const maxBetButtonElement = document.getElementById("max-bet-button")
 const minBetButtonElement = document.getElementById("min-bet-button")
-const instructionsPage = document.getElementById("instructions-page")
+const instructionsPage = document.getElementById("instructions")
 const gameSection = document.getElementById("game-section")
 const nextButton = document.getElementById("next-button")
 const loginPage = document.getElementById("login-page")
@@ -42,8 +42,40 @@ const loginFeedback = document.getElementById("login-feedback")
 
 
 /*-------------------------------- Functions --------------------------------*/
+
+const showLoginFeedback = (message) => {
+  loginFeedback.textContent = message
+}
+
 const startGame = () => {
+  loginPage.style.display = "none"
   gameSection.style.display = "block"
+}
+
+const handleLogin = () => {
+  const savedUsername = localStorage.getItem("username")
+  if (savedUsername) {
+    showLoginFeedback(`Welcome back, ${savedUsername}!`)
+    startGame()
+  } else {
+    showLoginFeedback("No saved account was found.")
+  }
+}
+
+const handleGuest = () => {
+  showLoginFeedback("Playing as Guest!")
+  startGame()
+}
+
+const handleCreateAccount = () => {
+  const newUsername = prompt("Enter a username:")
+  if (newUsername) {
+    localStorage.setItem("username", newUsername)
+    showLoginFeedback(`Account created successfully. Welcome, ${newUsername}!`)
+    startGame()
+  } else {
+    showLoginFeedback("Please enter a valid username.")
+  }
 }
 
 const updateBalance = () => {
@@ -145,4 +177,9 @@ maxBetButtonElement.addEventListener('click', () => {
 }) 
 nextButton.addEventListener('click', () => {
   instructionsPage.style.display = "none"
+  loginPage.style.display = "block"
 })
+loginButton.addEventListener('click', handleLogin)
+guestButton.addEventListener('click', handleGuest)
+createAccountButton.addEventListener('click', handleCreateAccount)
+
