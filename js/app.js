@@ -68,7 +68,11 @@ const handleLogin = () => {
     balance = users[enteredUsername].balance
     localStorage.setItem("currentUser", enteredUsername)
     updateBalance()
+    if (balance === 0) {
+      reloadBalanceButtonElement.style.display = "block"
+    } else {
     reloadBalanceButtonElement.style.display = "none"
+    }
     showLoginFeedback(`Welcome back, ${enteredUsername}!` ,true)
     setTimeout(() => {
       startGame()

@@ -137,9 +137,6 @@ button + button {
     background-color: #00A67E;
 }
 
-#guest-button:hover {
-    background-color: #008e66;
-}
 
 #message {
     margin-top: 20px;
@@ -162,16 +159,16 @@ button + button {
     margin-top: 20px;
 }
 
-#min-bet-button, #max-bet-button {
-    background-color: #00A67E;
+#min-bet-button, #max-bet-button, #guest-button {
+    background-color: #008d6a;
 }
 
-#min-bet-button:hover, #max-bet-button:hover {
-    background-color: #008e66;
+#min-bet-button:hover, #max-bet-button:hover, #guest-button:hover {
+    background-color: #006b52;
 }
 
 #logout-button {
-   background-color: #B20000;
+   background-color: #9E0000;
 }
 
 #logout-button:hover {
