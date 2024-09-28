@@ -8,7 +8,7 @@ const icons = [
   "images/jackpot-ghost.png"
 ]
 
-const multiplier = [1.35, 1.60, 2, 3, 5, 10]
+const multiplier = [1.35, 1.60, 2, 3, 5, 25]
 
 
 /*---------------------------- Variables (state) ----------------------------*/
@@ -58,6 +58,7 @@ const showLoginFeedback = (message, isSuccess = false) => {
 const startGame = () => {
   loginPageElement.style.display = "none"
   gameSectionElement.style.display = "block"
+  setRandomReels()
 }
 
 const handleLogin = () => {
@@ -67,10 +68,11 @@ const handleLogin = () => {
     balance = users[enteredUsername].balance
     localStorage.setItem("currentUser", enteredUsername)
     updateBalance()
+    reloadBalanceButtonElement.style.display = "none"
     showLoginFeedback(`Welcome back, ${enteredUsername}!` ,true)
     setTimeout(() => {
-    startGame()
-  }, 1500) 
+      startGame()
+    }, 1500) 
   } else {
     showLoginFeedback("No saved account was found!", false)
   }
@@ -79,9 +81,12 @@ const handleLogin = () => {
 const handleGuest = () => {
   showLoginFeedback("Playing as Guest!", true)
   localStorage.removeItem("currentUser")
+  balance = 100
+  updateBalance()
+  reloadBalanceButtonElement.style.display = "none"
   setTimeout(() => {
-  startGame()
-}, 1500)
+   startGame()
+  },1500)
   logoutButtonElement.style.display = "block"
   logoutButtonElement.style.margin = "16px auto"
 }
@@ -95,10 +100,14 @@ const handleCreateAccount = () => {
     } else {
       users[newUsername] = { balance: 100}
       localStorage.setItem("users", JSON.stringify(users))
+      localStorage.setItem("currentUser", newUsername)
+      balance = 100
+      updateBalance()
+      reloadBalanceButtonElement.style.display = "none"
       showLoginFeedback(`Account created successfully. Welcome, ${newUsername}!`, true)
       setTimeout(() => {
-      startGame()
-    }, 1800)
+       startGame()
+      },1800)
   }
 } else {
   showLoginFeedback("Please enter a valid username.", false)
@@ -136,6 +145,11 @@ const handleLogout = () => {
     users[currentUser].balance = balance
     localStorage.setItem("users", JSON.stringify(users))
   }
+  balance = 100
+  updateBalance()
+  reloadBalanceButtonElement.style.display = "none"
+  logoutButtonElement.style.display = "none"
+  localStorage.removeItem("currentUser")
   window.location.href = "thankyou.html"
 }
 
@@ -181,8 +195,8 @@ const checkForWinner = (betAmount) => {
     const winAmount = betAmount * winMultiplier
     
     if (reel1 === "images/jackpot-ghost.png") {
-      messageElement.textContent = `JACKPOT!! You won $${winAmount.toFixed(2)}`
-      messageElement.style.color = "#ffcc00"
+      messageElement.textContent = `JACKPOT!! You Won $${winAmount.toFixed(2)}`
+      messageElement.style.color = "#ffb700"
     } else { 
       messageElement.textContent = `You won $${winAmount.toFixed(2)}!`
       messageElement.style.color = "#00a67e"
@@ -191,7 +205,7 @@ const checkForWinner = (betAmount) => {
     updateBalance()
   } else {  
     messageElement.textContent = "You lost, try again!"  
-    messageElement.style.color = "red"
+    messageElement.style.color = "#FF0000"
   }
 
   if (balance <= 0) {
@@ -199,23 +213,32 @@ const checkForWinner = (betAmount) => {
     updateBalance()
     const currentUser = localStorage.getItem("currentUser")
     if (currentUser && currentUser !== "null" && currentUser !== "undefined") {
-      document.getElementById("reload-balance-button").style.display = "block"
+      reloadBalanceButtonElement.style.display = "block"
   } else { 
     return
   }
  }
 }
 
+const setRandomReels = () => {
+  reel1 = getRandomIcon()
+  reel2 = getRandomIcon()
+  reel3 = getRandomIcon()
+  updateReels()
+}
 
 
 /*----------------------------- Event Listeners -----------------------------*/
 spinButton.addEventListener('click', spinReels)
+
 minBetButtonElement.addEventListener('click', () => {
   betInputElement.value = "0.01"
 })
+
 maxBetButtonElement.addEventListener('click', () => {
   betInputElement.value = balance.toFixed(2)
 }) 
+
 nextButtonElement.addEventListener('click', () => {
   instructionsPageElement.classList.add("hidden")
   setTimeout(() => { 
@@ -223,14 +246,16 @@ nextButtonElement.addEventListener('click', () => {
   loginPageElement.style.display = "block"
   setTimeout(() => {
    loginPageElement.classList.add("visible")
-    loginPageElement.classList.remove("hidden")
+   loginPageElement.classList.remove("hidden")
   }, 50)
-  }, 500)
+ }, 500)
 })
+
 loginButtonElement.addEventListener('click', handleLogin)
 guestButtonElement.addEventListener('click', handleGuest) 
 createAccountButtonElement.addEventListener('click', handleCreateAccount)
 logoutButtonElement.addEventListener('click', handleLogout)
+
 reloadBalanceButtonElement.addEventListener('click', () => {
   balance = 100
   updateBalance()

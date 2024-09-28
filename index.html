@@ -5,20 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spooky Ghost Slot Machine</title>
     <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <!---- instructions Section -->
     <div id="instructions" class="visible">
-        <h1>How to Play</h1>
-        <p>Click the <B>spin</b> button to spin the slot machine. If all three ghost icons match, you win a multiplier bonus!</p>
+        <h1>Welcome to My Spooky Ghost Slot Machine Game!</h1>
+        <p>A game where high risk, amount to high rewards!</p>
+        <h2>How to Play:</h2>
+        <p>A slot machine game where you can play as a guest or create your own account to save your balance, both options are guaranteed to be a fun experience! Every player starts with a balance of 100$ and is able to bet up their current balance or as low as 0.01$. The game ends once the guest user's balance hits 0.00$, the users who create an account also get the additional option to reload their balance back to 100$ when they hit 0$, or save the game and logout. <br><br>Ghost Payouts:
+            <br><br>1. Blue Ghost: 1.35x
+            <br>2. Purple Ghost: 1.6x
+            <br>3. Green Ghost: 2x
+            <br>4. Yellow Ghost: 3x
+            <br>5. Pink Ghost: 5x
+            <br>6. Jackpot Ghost: 25x
+            <br><br>Can you hit the jackpot?
+        </p>
         <button id="next-button" type="button">Next</button>
     </div>
 
     <!---- login section -->
     <div id="login-page" class="hidden">
-        <h2>Welcome to My Spooky Ghost Slot Machine!</h2>
-        <p>Log in to continue where you left off, create an account to save your progress, or play as a guest for a quick game without saving.</p>
+        <h2> <b>Log in:</b> Load ur previous balance<br><b><br>Create an account:</b> saves ur current balance for future sessions<br><br>Play as a guest: to try the game without saving ur progress.</p></h2>
 
         <input type="text" id="username-input" placeholder="Enter your username">
         
@@ -52,11 +62,11 @@
             <button id="spin-button" type="button">Spin</button>
             <button id="max-bet-button" type="button">Max Bet</button>
         </div>
+        <div class = "bottom-controls">
         <button id="logout-button" type="button">Save & Logout</button>
+        <button id="reload-balance-button" type="button" style="display: none;">Reload Balance</button>
+        </div>
     </div>
-
-    <button id="reload-balance-button" type="button" style="display: none;">Reload Balance</button>
-
     <script src="js/app.js"></script>
 </body>
 </html>
