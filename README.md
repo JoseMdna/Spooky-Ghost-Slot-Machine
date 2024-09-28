@@ -1,4 +1,4 @@
-![Screenshot](image-1.png)
+![screenshot](image.png)
 
 ## Spooky Ghost Slot Machine
 
@@ -8,7 +8,7 @@ This game was built to combine the thrill of gambling with a fun, spooky theme, 
 
 ## Getting Started
 
-You can play the game [here](link_to_deployed_game).
+You can play the game [here](https://josemdna.github.io/Spooky-Ghost-Slot-Machine-Game/).
 
 ### Instructions
 1. Start by logging in, creating an account, or playing as a guest.
