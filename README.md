@@ -2,7 +2,7 @@
 
 ## Spooky Ghost Slot Machine
 
-Welcome to the Spooky Ghost Slot Machine Game! This is a web-based slot machine game, where players spin the reels to try their luck and win big. Each player starts with $100 and can place bets on the outcome of the reels. Match ghost icons to win multipliers, and aim for the Jackpot Ghost to win 25x your bet!
+Welcome to my Spooky Ghost Slot Machine Game! This is a web-based slot machine game, where players spin the reels to try their luck and win big. Each player starts with $100 and can place bets on the outcome of the reels. Match ghost icons to win multipliers, and aim for the Jackpot Ghost to win 25x your bet!
 
 This game was built to combine the thrill of gambling with a fun, spooky theme, ensuring a fun experience whether you're playing as a guest or with a saved account.
 
@@ -35,8 +35,8 @@ You can play the game [here](https://josemdna.github.io/Spooky-Ghost-Slot-Machin
 - JavaScript 
 
 ## Next Steps
-- Add sound effects when the user hits spin and gets a win
-- Add spinnign reel animation
+- Add a sound effect when the user clicks the spin button and when the user gets a win
+- Add a spinning reel animation
 - Light/Dark mode 
 - icons inside of reel get animated on a win
 

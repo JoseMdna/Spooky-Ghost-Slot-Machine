@@ -88,9 +88,9 @@ button:hover {
 }
 
 h2 {
-  font-size: 24px;  
-  font-weight: 600;
-  margin-bottom: 20px;
+    font-size: 24px;  
+    font-weight: 600;
+    margin-bottom: 20px;
 }
 
 p {
@@ -168,7 +168,7 @@ button + button {
 }
 
 #logout-button {
-   background-color: #9E0000;
+    background-color: #9E0000;
 }
 
 #logout-button:hover {
@@ -185,10 +185,34 @@ button + button {
 .bottom-controls {
     display: flex;
     flex-direction: column;
-   align-items: center;
+    align-items: center;
 }
 
 #logout-button, #reload-balance-button {
     margin: 10px 0;
     padding: 10px 20px;
+}
+
+@media (max-width: 768px) {
+h1 {
+    font-size: 20px;
+    word-wrap: break-word;
+    margin-top: 30px;
+    margin-bottom: 20px;
+} 
+
+p  { 
+    font-size: 16px;
+}
+
+body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+}
+
+#instructions {
+    padding: 15px;
 }
