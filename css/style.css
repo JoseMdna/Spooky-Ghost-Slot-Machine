@@ -193,11 +193,12 @@ button + button {
     padding: 10px 20px;
 }
 
-@media(max-width: 768px) {
+@media (max-width: 768px) {
 h1 {
     font-size: 20px;
     word-wrap: break-word;
-    margin-top: 10px;
+    margin-top: 30px;
+    margin-bottom: 20px;
 } 
 
 p  { 
@@ -205,7 +206,11 @@ p  {
 }
 
 body {
-    padding: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
 }
 
 #instructions {
