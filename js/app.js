@@ -68,15 +68,16 @@ const handleLogin = () => {
     balance = users[enteredUsername].balance
     localStorage.setItem("currentUser", enteredUsername)
     updateBalance()
+    balance = Math.round(balance * 100) / 100
     if (balance === 0) {
       reloadBalanceButtonElement.style.display = "block"
     } else {
-    reloadBalanceButtonElement.style.display = "none"
+      reloadBalanceButtonElement.style.display = "none"
     }
-    showLoginFeedback(`Welcome back, ${enteredUsername}!` ,true)
+    showLoginFeedback(`Welcome back, ${enteredUsername}!`, true)
     setTimeout(() => {
       startGame()
-    }, 1500) 
+    }, 1500)
   } else {
     showLoginFeedback("No saved account was found!", false)
   }
@@ -159,14 +160,15 @@ const handleLogout = () => {
 
 const spinReels = () => {
   let betAmount = parseFloat(betInputElement.value)
-  if (betAmount <= 0) {
-    betErrorElement.textContent = "Bet amount must be greater than $0.00!"
+  betAmount = Math.round(betAmount * 100) / 100
+  const roundedBalance = Math.round(balance * 100) / 100
+  const epsilon = 0.001
+  if (isNaN(betAmount) || betAmount < 0.01) {
+    betErrorElement.textContent = "Bet amount must be at least $0.01!"
     betErrorElement.style.display = "block"
     return
-  } else {
-    betErrorElement.style.display = "none"
   }
-  if (betAmount > balance + 0.001) {
+  if (betAmount > roundedBalance + epsilon) {
     betErrorElement.textContent = "This bet exceeds your current balance!"
     betErrorElement.style.display = "block"
     return
@@ -179,7 +181,7 @@ const spinReels = () => {
   reel2 = getRandomIcon()
   reel3 = getRandomIcon()
   updateReels()
-  checkForWinner(betAmount) 
+  checkForWinner(betAmount)
 }
 
 const getRandomIcon = () => {
@@ -196,32 +198,31 @@ const checkForWinner = (betAmount) => {
   if (reel1 === reel2 && reel2 === reel3) {
     const winIndex = icons.indexOf(reel1)
     const winMultiplier = multiplier[winIndex]
-    const winAmount = betAmount * winMultiplier
-    
+    let winAmount = betAmount * winMultiplier
+    winAmount = Math.round(winAmount * 100) / 100
     if (reel1 === "images/jackpot-ghost.png") {
       messageElement.textContent = `JACKPOT!! You Won $${winAmount.toFixed(2)}`
       messageElement.style.color = "#ffb700"
-    } else { 
+    } else {
       messageElement.textContent = `You won $${winAmount.toFixed(2)}!`
       messageElement.style.color = "#00a67e"
     }
     balance += winAmount
     updateBalance()
   } else {  
-    messageElement.textContent = "You lost, try again!"  
+    messageElement.textContent = "You lost, try again!"
     messageElement.style.color = "#FF0000"
   }
-
-  if (balance <= 0) {
-    balance = 0
+  balance = Math.round(balance * 100) / 100
+  if (balance === 0) {
     updateBalance()
     const currentUser = localStorage.getItem("currentUser")
     if (currentUser && currentUser !== "null" && currentUser !== "undefined") {
       reloadBalanceButtonElement.style.display = "block"
-  } else { 
-    return
+    } else {
+      reloadBalanceButtonElement.style.display = "none"
   }
- }
+}
 }
 
 const setRandomReels = () => {
