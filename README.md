@@ -35,7 +35,7 @@ You can play the game [here](https://josemdna.github.io/Spooky-Ghost-Slot-Machin
 - JavaScript 
 
 ## Next Steps
-- Add sound effects when the user hits spin and gets a win
+- Add a sound effect when the user clicks the spin button and when the user gets a win
 - Add spinning reel animation
 - Light/Dark mode 
 - icons inside of reel get animated on a win
