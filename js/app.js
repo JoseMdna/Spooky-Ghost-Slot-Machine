@@ -12,9 +12,9 @@ const multiplier = [1.35, 1.60, 2, 3, 5, 25]
 
 
 /*---------------------------- Variables (state) ----------------------------*/
-let reel1 = null
-let reel2 = null
-let reel3 = null
+let reel1 = ""
+let reel2 = ""
+let reel3 = ""
 
 let balance = 100
 
